@@ -1,0 +1,10 @@
+command = {SOI
+    ~ user_command ~ EOI}
+user_command=${"/" ~ identifier ~ (WHITESPACE ~ argument)*}
+identifier = @{ ASCII_ALPHANUMERIC+ }
+argument = @{ ASCII_ALPHANUMERIC+ }
+WHITESPACE = _{ " " }
+NEWLINE = _{ "\n" }
+
+
+
