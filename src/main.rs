@@ -53,7 +53,7 @@ fn main() -> Result<()> {
 fn print_help() {
     println!("Help:\n");
     println!("Commands:");
-    println!("  parse <input_string>");
+    println!("  parse <input_string> (parces string only if it is a type of command /example_identifier example arguments");
     println!("  help");
     println!("  credits\n");
 }
