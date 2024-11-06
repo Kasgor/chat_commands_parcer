@@ -25,13 +25,13 @@ fn main() -> Result<()> {
             let input_string = args[2..].join(" ");
             match Grammar::parse(Rule::command, &input_string) {
                 Ok(parsed) => {
-                    println!("Parsed content:");
+                    println!("Info:");
                     for pair in parsed {
                         println!("{:?}", pair);
                     }
                 }
                 Err(e) => {
-                    eprintln!("Failed to parse input: {}", e);
+                    eprintln!("Failed: {}", e);
                 }
             }
         }

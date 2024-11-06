@@ -1,9 +1,17 @@
+
+///structure to be ready to parce (there was a problem and it was solved this way)
 command = {SOI
     ~ user_command ~ EOI}
+
+///structure that will be used to parce a  user input divides identifiers with argument and starts read this as a command when "/" is used 
 user_command=${"/" ~ identifier ~ (WHITESPACE ~ argument)*}
+///structure for main name of the command
 identifier = @{ ASCII_ALPHANUMERIC+ }
+///structuer that can be requirement for specific identifier|command(it is more close to first part of user_command) to have
 argument = @{ ASCII_ALPHANUMERIC+ }
+///structure for WHITESPACE
 WHITESPACE = _{ " " }
+///structure for WHITESPACE
 NEWLINE = _{ "\n" }
 
 

@@ -1,9 +1,12 @@
 [package]
 name = "chat_commands_parcer"
+description = "The theme of the parcer is a command like input in the enviroment like chats of different social apps (Discord, Telegram) It parces users input-commands in format: /command_name|identifier (arguments)* I had problems understanding how to work with Makefile This application is a parser built with Rust using the `pest`. It takes command-line input, parses it and displays structured information about the input. "
+readme = "Readme.md"
 version = "0.1.0"
+license = "MIT"
 edition = "2021"
 
 [dependencies]
-anyhow = "1.0.92"
+anyhow = "1.0.93"
 pest = "2.7.14"
 pest_derive = "2.7.14"

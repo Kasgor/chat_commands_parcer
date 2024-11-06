@@ -30,9 +30,10 @@ fn test_whitespace() {
     let parsed = Grammar::parse(Rule::WHITESPACE, " ").expect("Parce problem5");
     assert_eq!(parsed.as_str(), "");
 }
-
+//Повинно бути порожнім так як ми використовуюмо "_"
 #[test]
 fn test_newline() {
     let parsed = Grammar::parse(Rule::NEWLINE, "\n").expect("Parce problem6");
     assert_eq!(parsed.as_str(), "");
 }
+//Повинно бути порожнім так як ми використовуюмо "_"
