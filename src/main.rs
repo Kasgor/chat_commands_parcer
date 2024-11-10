@@ -1,11 +1,8 @@
 use anyhow::Result;
-use pest::Parser;
-use pest_derive::Parser;
-use std::env;
 
-#[derive(Parser)]
-#[grammar = "grammar.pest"]
-pub struct Grammar;
+use chat_commands_parcer::*;
+use std::env;
+use std::io::{self, Write};
 
 fn main() -> Result<()> {
     let args: Vec<String> = env::args().collect();
@@ -17,22 +14,31 @@ fn main() -> Result<()> {
 
     match args[1].as_str() {
         "parse" => {
-            if args.len() < 3 {
-                eprintln!("No input enter some text/command to parce");
-                return Ok(());
-            }
+            print!("Enter the name of the file: ");
+            io::stdout().flush().unwrap();
 
-            let input_string = args[2..].join(" ");
-            match Grammar::parse(Rule::command, &input_string) {
-                Ok(parsed) => {
-                    println!("Info:");
-                    for pair in parsed {
-                        println!("{:?}", pair);
+            let mut filename = String::new();
+            io::stdin()
+                .read_line(&mut filename)
+                .expect("Failed to read line");
+            let filename = filename.trim();
+
+            let input = match std::fs::read_to_string(filename) {
+                Ok(content) => content,
+                Err(e) => {
+                    eprintln!("Error reading file '{}': {}", filename, e);
+                    std::process::exit(1);
+                }
+            };
+
+            match parse_input(&input) {
+                Ok(output) => {
+                    match std::fs::write("output.txt", output) {
+                        Ok(_) => println!("Output written to output.txt"),
+                        Err(e) => eprintln!("Error writing to output.txt: {}", e),
                     }
                 }
-                Err(e) => {
-                    eprintln!("Failed: {}", e);
-                }
+                Err(e) => eprintln!("Error: {}", e),
             }
         }
         "help" => {
@@ -53,7 +59,7 @@ fn main() -> Result<()> {
 fn print_help() {
     println!("Help:\n");
     println!("Commands:");
-    println!("  parse <input_string> (parces string only if it is a type of command /example_identifier example arguments");
+    println!("  parse <input_file> (parces file");
     println!("  help");
     println!("  credits\n");
 }

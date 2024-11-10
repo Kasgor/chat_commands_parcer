@@ -1,18 +1,41 @@
 
 ///structure to be ready to parce (there was a problem and it was solved this way)
-command = {SOI
-    ~ user_command ~ EOI}
+command_or_text = ${ user_command | text | WHITESPACE }
 
-///structure that will be used to parce a  user input divides identifiers with argument and starts read this as a command when "/" is used 
-user_command=${"/" ~ identifier ~ (WHITESPACE ~ argument)*}
+///main input
+input = { SOI ~ command_or_text* ~ EOI }
+/// any text
+text = { (!"/" ~ ANY)+ }
+
+///structure that will be used to parce a  user input commands
+user_command = { smile_command | repeat_command | define_command | use_command}
+
+/// definition of command smile
+smile_command = { "/smile" }
+/// definition of repeat smile take number and quoted text
+repeat_command = { "/repeat" ~ WHITESPACE+ ~ number ~ WHITESPACE+ ~ quoted_text }
+/// definition of command if (not implemented faced troubles)
+if_command = { "/if" ~ WHITESPACE+ ~ quoted_text ~ WHITESPACE+ ~ quoted_text ~ WHITESPACE+ ~ quoted_text }
+/// definition of command define takes 2 atrguments as quoted_text
+define_command = { "/define" ~ WHITESPACE+ ~ quoted_text ~ WHITESPACE+ ~ quoted_text }
+/// definition of command use takes 1 atrgument as quoted_text uses a variables created by definition
+use_command = { "/use" ~ WHITESPACE+ ~ quoted_text }
+
 ///structure for main name of the command
 identifier = @{ ASCII_ALPHANUMERIC+ }
+
 ///structuer that can be requirement for specific identifier|command(it is more close to first part of user_command) to have
 argument = @{ ASCII_ALPHANUMERIC+ }
+
 ///structure for WHITESPACE
-WHITESPACE = _{ " " }
+WHITESPACE = _{  " " | "\t" | NEWLINE }
+
 ///structure for WHITESPACE
 NEWLINE = _{ "\n" }
+///structure for number
+number = @{ ASCII_DIGIT+ }
+/// structure for quoted_text
+quoted_text = @{ "\"" ~ (!"\"" ~ ANY)* ~ "\"" }
 
 
 

@@ -1,0 +1,6 @@
+The world is beautiful /smile I like it /repeat 100 ":" 
+Hello /define "user" "Bob" /use "user"!
+ /use "user"
+ /use "user"
+  /use "user"
+   /use "user"
