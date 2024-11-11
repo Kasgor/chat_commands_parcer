@@ -1,5 +1,5 @@
-use pest_derive::Parser;
 use pest::Parser;
+use pest_derive::Parser;
 
 use std::collections::HashMap;
 //use pest::{iterators::Pair, Parser};
@@ -30,9 +30,7 @@ pub fn parse_input(input: &str) -> Result<String, ParseError> {
     let mut variables = HashMap::new();
 
     for pair in parsed.next().unwrap().into_inner() {
-        
-        for in_pair in pair.into_inner(){
-            
+        for in_pair in pair.into_inner() {
             match in_pair.as_rule() {
                 Rule::text | Rule::WHITESPACE => {
                     output.push_str(in_pair.as_str());
@@ -44,12 +42,15 @@ pub fn parse_input(input: &str) -> Result<String, ParseError> {
                             output.push_str(":) ");
                         }
                         Rule::repeat_command => {
-                            let mut inner_rules = command_pair.into_inner();                         
+                            let mut inner_rules = command_pair.into_inner();
                             let number_pair = inner_rules.next().unwrap();
-                            let number: usize = number_pair.as_str().parse().map_err(|_| ParseError::InvalidNumber)?;
+                            let number: usize = number_pair
+                                .as_str()
+                                .parse()
+                                .map_err(|_| ParseError::InvalidNumber)?;
                             let text_pair = inner_rules.next().unwrap();
                             let quoted_text = text_pair.as_str();
-                            let text_to_repeat = &quoted_text[1..quoted_text.len()-1];
+                            let text_to_repeat = &quoted_text[1..quoted_text.len() - 1];
                             for _ in 0..number {
                                 output.push_str(text_to_repeat);
                             }
@@ -58,16 +59,19 @@ pub fn parse_input(input: &str) -> Result<String, ParseError> {
                             let mut inner_rules = command_pair.into_inner();
                             let var_name_pair = inner_rules.next().unwrap();
                             let var_value_pair = inner_rules.next().unwrap();
-    
-                            let var_name = &var_name_pair.as_str()[1..var_name_pair.as_str().len()-1];
-                            let var_value = &var_value_pair.as_str()[1..var_value_pair.as_str().len()-1];
-    
+
+                            let var_name =
+                                &var_name_pair.as_str()[1..var_name_pair.as_str().len() - 1];
+                            let var_value =
+                                &var_value_pair.as_str()[1..var_value_pair.as_str().len() - 1];
+
                             variables.insert(var_name.to_string(), var_value.to_string());
                         }
                         Rule::use_command => {
                             let var_name_pair = command_pair.into_inner().next().unwrap();
-                            let var_name = &var_name_pair.as_str()[1..var_name_pair.as_str().len()-1];
-    
+                            let var_name =
+                                &var_name_pair.as_str()[1..var_name_pair.as_str().len() - 1];
+
                             if let Some(value) = variables.get(var_name) {
                                 output.push_str(value);
                             } else {
@@ -75,14 +79,15 @@ pub fn parse_input(input: &str) -> Result<String, ParseError> {
                             }
                         }
                         _ => {
-                            return Err(ParseError::UnknownCommand(command_pair.as_str().to_string()));
+                            return Err(ParseError::UnknownCommand(
+                                command_pair.as_str().to_string(),
+                            ));
                         }
                     }
                 }
                 _ => {}
             }
         }
-       
     }
 
     Ok(output)

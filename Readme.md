@@ -35,4 +35,5 @@ Logic of parsing:
 
 This application is a parser built with Rust using the `pest`. It takes command-line input, parses it and displays structured information about the input. 
 
+https://crates.io/crates/chat_commands_parcer
 

@@ -32,12 +32,10 @@ fn main() -> Result<()> {
             };
 
             match parse_input(&input) {
-                Ok(output) => {
-                    match std::fs::write("output.txt", output) {
-                        Ok(_) => println!("Output written to output.txt"),
-                        Err(e) => eprintln!("Error writing to output.txt: {}", e),
-                    }
-                }
+                Ok(output) => match std::fs::write("output.txt", output) {
+                    Ok(_) => println!("Output written to output.txt"),
+                    Err(e) => eprintln!("Error writing to output.txt: {}", e),
+                },
                 Err(e) => eprintln!("Error: {}", e),
             }
         }
