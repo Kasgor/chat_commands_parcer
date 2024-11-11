@@ -44,7 +44,7 @@ pub fn parse_input(input: &str) -> Result<String, ParseError> {
                             output.push_str(":) ");
                         }
                         Rule::repeat_command => {
-                            let mut inner_rules = command_pair.into_inner();
+                            let mut inner_rules = command_pair.into_inner();                         
                             let number_pair = inner_rules.next().unwrap();
                             let number: usize = number_pair.as_str().parse().map_err(|_| ParseError::InvalidNumber)?;
                             let text_pair = inner_rules.next().unwrap();

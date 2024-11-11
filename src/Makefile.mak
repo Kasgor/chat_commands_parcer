@@ -9,7 +9,7 @@ run:
 	cargo run
 
 run_parse_example:
-	cargo run parse /input argument
+	cargo run parse 
 
 test:
 	cargo test
